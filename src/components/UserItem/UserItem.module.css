@@ -1,0 +1,6 @@
+.userItem {
+  border: 2px solid blue;
+  width: 500px;
+  margin-inline: auto;
+  padding: 1rem;
+}
