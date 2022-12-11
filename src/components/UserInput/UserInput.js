@@ -1,32 +1,30 @@
-import React, { useState } from "react";
-import styles from './UserInput.module.css'
+import React, { useRef, useState } from "react";
+import styles from "./UserInput.module.css";
 
 export default function UserInput(props) {
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
-
-  const nameChangeHandler = (event) => {
-    setEnteredName(event.target.value);
-  };
-  const ageChangeHanlder = (event) => {
-    setEnteredAge(event.target.value);
-  };
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
 
   const submitFormHandler = (event) => {
     event.preventDefault();
-    if (enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
+    const enteredUserName = nameInputRef.current.value;
+    const enteredUserAge = ageInputRef.current.value;
+
+    if (enteredUserName.trim().length === 0 || enteredUserAge.trim().length === 0) {
       props.onInvalid();
       return;
     }
-    props.onAddUser({ name: enteredName, age: enteredAge });
+    props.onAddUser({ name: enteredUserName, age: enteredUserAge });
+    nameInputRef.current.value = '';
+    ageInputRef.current.value = '';
   };
 
   return (
     <form onSubmit={submitFormHandler}>
       <label>Name</label>
-      <input onChange={nameChangeHandler} type="text" />
+      <input type="text" ref={nameInputRef} />
       <label>Age</label>
-      <input onChange={ageChangeHanlder} type="number" />
+      <input type="number" ref={ageInputRef} />
 
       <button>Add User</button>
     </form>
